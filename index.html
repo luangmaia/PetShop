@@ -1,54 +1,45 @@
 <!DOCTYPE html>
-<html ng-app="app">
-    <head>
-        <meta charset="utf-8" />
-        <title>Pet Shop</title>
-        <link rel="stylesheet" href="css/reset.css"></link>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <link rel="stylesheet" href="css/main.css"></link>
-    </head>
-    <body>
-        <header>
-            <img src="" role="logo" alt="Logo de um animal">
-            <h1>Pet Shop</h1>
-        </header>
+<html lang="pt-br" ng-app="app">
+	<head>
+		<meta charset="utf-8" />
+		<title>Pet Shop</title>
+		<link rel="stylesheet" href="css/reset.css"></link>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<link rel="stylesheet" href="css/main.css"></link>
+	</head>
+	<body>
+		<header>
+			<img src="" role="logo" alt="Logo com um animal">
+			<h1>Pet Shop</h1>
+		</header>
 
-        <nav>
-            <div class='menu'>
-                <a href="#">Comprar</a>
-                <a href="#">Pedidos</a>
-            </div>
-            <div class='login'>
-                <a href="#">Login</a>
-                <a href="#">Cadastrar</a>
-            </div>
-        </nav>
+		<nav>
+			<div class='menu'>
+				<a href="#">Comprar</a>
+				<a href="#">Pedidos</a>
+			</div>
+			<div class='login'>
+				<a href="#">Login</a>
+				<a href="#">Cadastrar</a>
+			</div>
+		</nav>
 
-        <main ng-controller="MainCtrl">
+		<main>
+			<ng-view></ng-view>
+		</main>
 
-            <section>
-                <h2>Animais disponíveis</h2>
-            </section>
+		<script src="lib/angular.min.js"></script>
+		<script src="lib/angular-resource.min.js"></script>
+		<script src="lib/angular-route.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		
+		<script src="js/main.js"></script>
+		<script src="js/route.js"></script>
 
-            <div class='pet'>
-                <figure>
-                    <button><div hidden>Foto anterior</div><img src="images/icons/svg/chevron-left.svg"></button>
-                    <img src="" alt="Foto do animal">
-                    <button><div hidden>Próxima foto</div><img src="images/icons/svg/chevron-right.svg"></button>
-                    <figcaption>Nome do animal</figcaption>
-                </figure>
-                <p>Categoria: </p>
-                <p>Tags: <div class='tag'></div></p>
-                <button>Comprar <img src="images/icons/svg/cart.svg" aria-hidden="true"></button>
-            </div>
+		<script src="js/services/PetsByStatus.js"></script>
 
-        </main>
-
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-        <script src="lib/angular.min.js"></script>
-        <script src="lib/angular-resource.min.js"></script>
-        <script src="lib/angular-route.min.js"></script>
-    </body>
+		<script src="js/controllers/ComprarCtrl.js"></script>
+	</body>
 </html>

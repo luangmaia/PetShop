@@ -1,0 +1,14 @@
+<section>
+    <h2>Animais disponíveis</h2>
+</section>
+<div class='pet' ng-repeat="pet in pets">
+    <figure>
+        <button ng-click="botaoFotoAnterior()"><div hidden>Foto anterior</div><img src="images/icons/svg/chevron-left.svg"></button>
+        <img ng-src="{{pet.photoUrls[indexFotoAtual]}}" alt="Foto do animal">
+        <button ng-click="botaoProximaFoto($index)"><div hidden>Próxima foto</div><img src="images/icons/svg/chevron-right.svg"></button>
+        <figcaption>{{pet.name}}</figcaption>
+    </figure>
+    <p>Categoria: {{pet.category.name}}</p>
+    <p>Tags: <div ng-repeat="tag in pet.tags">{{tag.name + ' '}}</div></p>
+    <button>Comprar <img src="images/icons/svg/cart.svg" aria-hidden="true"></button>
+</div>
