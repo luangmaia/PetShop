@@ -1,6 +1,6 @@
 app.config(function($routeProvider) {
 
-    $routeProvider.when('/', {
+    $routeProvider.when('/#', {
         templateUrl: 'view/comprar.html',
         controller: 'ComprarCtrl'
     });
@@ -10,5 +10,17 @@ app.config(function($routeProvider) {
         controller: 'ComprarCtrl'
     });
 
-    $routeProvider.otherwise({redirectTo: '/'});
+    $routeProvider.when('/pedidos', {
+        template: '<p>Em construção!</p>'
+    });
+
+    $routeProvider.when('/cadastro', {
+        template: '<p>Em construção!</p>'
+    });
+
+    $routeProvider.when('/login', {
+        template: '<p>Em construção!</p>'
+    });
+
+    $routeProvider.otherwise({redirectTo: '/#'});
 });

@@ -1,7 +1,7 @@
 <section>
     <h2>Animais disponíveis</h2>
 </section>
-<div class='pet' ng-repeat="pet in pets">
+<!--<div ng-repeat="pet in pets">
     <figure>
         <button ng-click="botaoFotoAnterior()"><div hidden>Foto anterior</div><img src="images/icons/svg/chevron-left.svg"></button>
         <img ng-src="{{pet.photoUrls[indexFotoAtual]}}" alt="Foto do animal">
@@ -11,4 +11,38 @@
     <p>Categoria: {{pet.category.name}}</p>
     <p>Tags: <div ng-repeat="tag in pet.tags">{{tag.name + ' '}}</div></p>
     <button>Comprar <img src="images/icons/svg/cart.svg" aria-hidden="true"></button>
+</div>-->
+<div class="container">
+    <div class="row" ng-repeat="rowPets in arrayPets">
+        <div class="card col-3 card-animal" ng-repeat="pet in rowPets">
+            <div class="foto-e-btns">
+                <button class="btn btn-outline-secondary" ng-disabled="pet.flagBotaoAnterior" aria-disabled="pet.flagBotaoAnterior" ng-click="botaoFotoAnterior($parent.$index, $index)" aria-label="Foto anterior">
+                    <span class="sr-only">Foto anterior</span>
+                    <img src="images/icons/svg/chevron-left.svg">
+                </button>
+                <img class="card-img-top" ng-src="{{pet.photoUrls[pet.indexFotoAtual]}}" alt="Foto do animal">
+                <button class="btn btn-outline-secondary" ng-disabled="pet.flagBotaoProximo" aria-disabled="pet.flagBotaoAnterior" ng-click="botaoProximaFoto($parent.$index, $index)" aria-label="Próxima foto">
+                    <span class="sr-only">Próxima foto</span>
+                    <img src="images/icons/svg/chevron-right.svg">
+                </button>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title" alt="Nome do animal">{{pet.name}}</h5>
+                <p class="card-text">Categoria: {{pet.category.name}}</p>
+                <p class="card-text">Tags: <span ng-repeat="tag in pet.tags">'{{tag.name}}' </span></p>
+            </div>
+            <div class="card-footer">
+                <a href="#" class="btn btn-outline-info btn-block">Comprar</a>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <nav aria-label="Paginação">
+            <ul class="pagination">
+                <li class="page-item" ng-repeat="pagina in paginas track by $index">
+                    <a class="page-link" href="" ng-click="clickPagina($index)">{{$index+1}}</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 </div>
