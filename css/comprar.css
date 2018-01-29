@@ -1,0 +1,38 @@
+.foto-e-btns {
+    height: 12rem;
+    width: 100%;
+}
+
+.card-animal .card-img-top {
+    height: 100%;
+}
+
+.card-animal button {
+    width: 50%;
+}
+
+.card-footer {
+    background-color: transparent;
+    border-top: 0;
+}
+
+.card {
+    border: 0;
+}
+
+.foto-e-btns .card-img-top {
+    width: 65%;
+}
+
+.foto-e-btns button {
+    width: 15%;
+    height: 100%;
+}
+
+.pagination {
+    padding: 2rem;
+}
+
+.foto-e-btns button:disabled {
+    opacity:0.15;
+}

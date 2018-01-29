@@ -3,43 +3,54 @@
 	<head>
 		<meta charset="utf-8" />
 		<title>Pet Shop</title>
-		<link rel="stylesheet" href="css/reset.css"></link>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<!--<link rel="stylesheet" href="css/reset.css"></link>-->
+		<link rel="stylesheet" href="css/bootstrap.min.css"></link>
 		<link rel="stylesheet" href="css/main.css"></link>
+		<link rel="stylesheet" href="css/comprar.css"></link>
 	</head>
 	<body>
 		<header>
-			<img src="" role="logo" alt="Logo com um animal">
-			<h1>Pet Shop</h1>
+			<nav class="navbar navbar-expand-lg navbar-light bg-light">
+				<a class="navbar-brand" href="#"><img src="images/logo.png" width="30" height="30" class="d-inline-block align-top" alt="Logo com um cachorro"> Pet Shop</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarText">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item active">
+							<a class="nav-link" href="#/comprar">Comprar</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#/pedidos">Pedidos</a>
+						</li>
+					</ul>
+					<span class="navbar-text">
+						<a class="text-info" role="button" href="#/cadastro">Cadastro</a> <span aria-hidden="true">|</span><span class="sr-only">ou</span> <a class="text-info" role="button" href="#/login">Login</a>
+					</span>
+				</div>
+			</nav>
 		</header>
 
-		<nav>
-			<div class='menu'>
-				<a href="#">Comprar</a>
-				<a href="#">Pedidos</a>
-			</div>
-			<div class='login'>
-				<a href="#">Login</a>
-				<a href="#">Cadastrar</a>
-			</div>
-		</nav>
-
-		<main>
+		<main autofocus>
 			<ng-view></ng-view>
 		</main>
 
 		<script src="lib/angular.min.js"></script>
 		<script src="lib/angular-resource.min.js"></script>
 		<script src="lib/angular-route.min.js"></script>
-		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		<script src="lib/jquery-3.2.1.slim.min.js"></script>
+		<script src="lib/popper.min.js"></script>
+		<script src="lib/bootstrap.min.js"></script>
 		
 		<script src="js/main.js"></script>
 		<script src="js/route.js"></script>
+		<script src="js/services.js"></script>
 
 		<script src="js/services/PetsByStatus.js"></script>
+		<script src="js/services/MakeOrder.js"></script>
+		<script src="js/services/SavePet.js"></script>
 
 		<script src="js/controllers/ComprarCtrl.js"></script>
+		<script src="js/controllers/PedidosCtrl.js"></script>
 	</body>
 </html>
