@@ -3,12 +3,40 @@
 </section>
 
 <div class="container">
-    <div class="row">
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="busca-por-numero-pedido"><span class="sr-only">Campo de busca por número do pedido</span><img src="images/icons/svg/magnifying-glass.svg" aria-hidden="true"></span>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="busca-por-numero-pedido" aria-label="Campo de busca por número do pedido">Número do pedido</span>
+        </div>
+        <input type="number" min="0" class="form-control" placeholder="Pedido" ng-model="pedidoID" aria-label="Campo do número do pedido" aria-describedby="busca-por-numero-pedido">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" aria-label="Encontrar Pedido" ng-click="getOrderByID(pedidoID)">Encontrar</button>
+        </div>
+    </div>
+
+    <div class="alert alert-danger" role="alert" ng-show="pedidoEncontrado == true">
+        Pedido não encontrado!
+    </div>
+
+    <div ng-hide="pedidoPronto != true">
+        <h4 class="font-weight-bold">Informações do pedido:</h4>
+        <div class="info">
+            <p><span  class="font-weight-bold">Número do pedido:</span> {{pedido.id}}</p>
+            <!--<p><span  class="font-weight-bold">Quantidade:</span> {{pedido.quantity}}</p>-->
+            <p><span  class="font-weight-bold">Data de entrega estimada:</span> {{pedido.shipDate}}</p>
+            <p><span  class="font-weight-bold">Estado<span class="sr-only"> do pedido</span>:</span> {{pedido.status}}</p>
+
+            <div ng-hide="petPedidoPronto != true">
+                <h5 class="font-weight-bold">Informações do animal:</h5>
+
+                <div class="info">
+                    <img class="foto-animal" ng-src="{{petPedido.photoUrls[0]}}" alt="Foto de {{petPedido.name}}">
+
+                    <h6 class="card-title font-weight-bold"><span class="sr-only">Nome do animal: </span>{{petPedido.name}}</h6>
+                    <p class="card-text"><span  class="font-weight-bold">Categoria:</span> {{petPedido.category.name}}</p>
+                    <p class="card-text"><span  class="font-weight-bold">Tags:</span> <span ng-repeat="tag in petPedido.tags">'{{tag.name}}' </span></p>
+                    <p class="card-text"><span  class="font-weight-bold">Estado<span class="sr-only"> do animal</span>:</span> {{petPedido.status}}</p>
+                </div>
             </div>
-            <input type="number" min="0" class="form-control" placeholder="Número do pedido" aria-label="Campo do número do pedido" aria-describedby="busca-por-numero-pedido">
         </div>
     </div>
 </div>
