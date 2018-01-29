@@ -5,7 +5,7 @@ app.controller('PedidosCtrl', function($scope, OrderByID, PetByID) {
             /* Pegando o pedido na API */
             $scope.pedido = OrderByID.query(orderID);
 
-            //$scope.pedido = getOrderByID(3435435485);
+            //$scope.pedido = getOrderByID(4535435465);
 
             $scope.pedido.$promise.then(function() { //Pedido pronto
                 $scope.pedidoPronto = true;
