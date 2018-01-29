@@ -1,48 +1,105 @@
 <section>
-    <h2>Animais disponíveis</h2>
+	<h2>Animais disponíveis</h2>
 </section>
 <!--<div ng-repeat="pet in pets">
-    <figure>
-        <button ng-click="botaoFotoAnterior()"><div hidden>Foto anterior</div><img src="images/icons/svg/chevron-left.svg"></button>
-        <img ng-src="{{pet.photoUrls[indexFotoAtual]}}" alt="Foto do animal">
-        <button ng-click="botaoProximaFoto($index)"><div hidden>Próxima foto</div><img src="images/icons/svg/chevron-right.svg"></button>
-        <figcaption>{{pet.name}}</figcaption>
-    </figure>
-    <p>Categoria: {{pet.category.name}}</p>
-    <p>Tags: <div ng-repeat="tag in pet.tags">{{tag.name + ' '}}</div></p>
-    <button>Comprar <img src="images/icons/svg/cart.svg" aria-hidden="true"></button>
+	<figure>
+		<button ng-click="botaoFotoAnterior()"><div hidden>Foto anterior</div><img src="images/icons/svg/chevron-left.svg"></button>
+		<img ng-src="{{pet.photoUrls[indexFotoAtual]}}" alt="Foto do animal">
+		<button ng-click="botaoProximaFoto($index)"><div hidden>Próxima foto</div><img src="images/icons/svg/chevron-right.svg"></button>
+		<figcaption>{{pet.name}}</figcaption>
+	</figure>
+	<p>Categoria: {{pet.category.name}}</p>
+	<p>Tags: <div ng-repeat="tag in pet.tags">{{tag.name + ' '}}</div></p>
+	<button>Comprar <img src="images/icons/svg/cart.svg" aria-hidden="true"></button>
 </div>-->
 <div class="container">
-    <div class="row" ng-repeat="rowPets in arrayPets">
-        <div class="card col-3 card-animal" ng-repeat="pet in rowPets">
-            <div class="foto-e-btns">
-                <button class="btn btn-outline-secondary" ng-disabled="pet.flagBotaoAnterior" aria-disabled="pet.flagBotaoAnterior" ng-click="botaoFotoAnterior($parent.$index, $index)" aria-label="Foto anterior">
-                    <span class="sr-only">Foto anterior</span>
-                    <img src="images/icons/svg/chevron-left.svg">
-                </button>
-                <img class="card-img-top" ng-src="{{pet.photoUrls[pet.indexFotoAtual]}}" alt="Foto do animal">
-                <button class="btn btn-outline-secondary" ng-disabled="pet.flagBotaoProximo" aria-disabled="pet.flagBotaoAnterior" ng-click="botaoProximaFoto($parent.$index, $index)" aria-label="Próxima foto">
-                    <span class="sr-only">Próxima foto</span>
-                    <img src="images/icons/svg/chevron-right.svg">
-                </button>
-            </div>
-            <div class="card-body">
-                <h5 class="card-title" alt="Nome do animal">{{pet.name}}</h5>
-                <p class="card-text">Categoria: {{pet.category.name}}</p>
-                <p class="card-text">Tags: <span ng-repeat="tag in pet.tags">'{{tag.name}}' </span></p>
-            </div>
-            <div class="card-footer">
-                <a href="#" class="btn btn-outline-info btn-block">Comprar</a>
-            </div>
-        </div>
-    </div>
-    <div class="row justify-content-center">
-        <nav aria-label="Paginação">
-            <ul class="pagination">
-                <li class="page-item" ng-repeat="pagina in paginas track by $index">
-                    <a class="page-link" href="" ng-click="clickPagina($index)">{{$index+1}}</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+	<div class="row" ng-repeat="rowPets in arrayPets track by $index">
+		<div class="card col-3 card-animal" ng-repeat="pet in rowPets">
+			<span class="sr-only">Dados do animal de nome {{pet.name}}</span>
+			<div class="foto-e-btns">
+				<span class="sr-only">Troca de fotos</span>
+				<button class="btn btn-outline-secondary" ng-disabled="pet.flagBotaoAnterior" aria-disabled="pet.flagBotaoAnterior" ng-click="botaoFotoAnterior($parent.$index, $index)" aria-label="Foto anterior">
+					<span class="sr-only">Foto anterior</span>
+					<img src="images/icons/svg/chevron-left.svg">
+				</button>
+				<img class="card-img-top" ng-src="{{pet.photoUrls[pet.indexFotoAtual]}}" alt="Foto de {{pet.name}}">
+				<button class="btn btn-outline-secondary" ng-disabled="pet.flagBotaoProximo" aria-disabled="pet.flagBotaoAnterior" ng-click="botaoProximaFoto($parent.$index, $index)" aria-label="Próxima foto">
+					<span class="sr-only">Próxima foto</span>
+					<img src="images/icons/svg/chevron-right.svg">
+				</button>
+			</div>
+			<div class="card-body">
+				<span class="sr-only">Informações</span>
+				<h5 class="card-title"><span class="sr-only">Nome do animal: </span>{{pet.name}}</h5>
+				<p class="card-text">Categoria: {{pet.category.name}}</p>
+				<p class="card-text">Tags: <span ng-repeat="tag in pet.tags">'{{tag.name}}' </span></p>
+			</div>
+			<div class="card-footer">
+				<a href="" class="btn btn-outline-info btn-block" ng-click="clickComprar($parent.$index, $index)" role="button" data-toggle="modal"  data-target=".modalInformacoesPedido">Comprar</a>
+			</div>
+		</div>
+	</div>
+	<div class="row justify-content-center">
+		<nav aria-label="Paginação">
+			<ul class="pagination" aria-label="Botões da paginação">
+				<li class="page-item" ng-repeat="pagina in paginas track by $index">
+					<a class="page-link" href="" ng-click="clickPagina($index)" role="button">{{$index+1}}</a>
+				</li>
+			</ul>
+		</nav>
+	</div>
+
+	<!-- Modal Compra -->
+	<div class="modal fade modalInformacoesPedido" tabindex="-1" role="dialog" aria-labelledby="modalInformacoesPedidoTitle" aria-hidden="true">
+		<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header row">
+					<h5 class="modal-title col-10" id="modalInformacoesPedidoTitle">Confirmação da compra</h5>
+					<button type="button" class="close col-2" data-dismiss="modal" aria-label="Cancelar compra">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-6">
+							<img class="col-12" ng-src="{{petEscolhido.photoUrls[petEscolhido.indexFotoAtual]}}" alt="Foto de {{petEscolhido.name}}">
+						</div>
+						<div class="col-6">
+							<span class="sr-only">Informações</span>
+							<h5 class="card-title"><span class="sr-only">Nome do animal: </span>{{petEscolhido.name}}</h5>
+							<p class="card-text">Categoria: {{petEscolhido.category.name}}</p>
+							<p class="card-text">Tags: <span ng-repeat="tag in petEscolhido.tags">'{{tag.name}}' </span></p>
+							<p><span class="font-weight-bold">Data de entrega prevista para:</span> {{dataDeEntrega}}</p>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar<span class="sr-only"> compra</span></button>
+					<a href="#/comprar" class="btn btn-primary" ng-click="clickConfirmarPedido()" data-dismiss="modal" role="button"  data-toggle="modal" data-target="#infoPedidoModal">Confirmar<span class="sr-only"> compra</span></a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal Informações Sobre o Pedido -->
+	<div class="modal fade" id="infoPedidoModal" tabindex="-1" role="dialog" aria-labelledby="infoPedidoModalTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+		  <div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="infoPedidoModalTitle">Informações sobre o pedido</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<h5 class="font-weight-bold">Parabéns! Sua compra foi realizada com sucesso.</h5>
+				<p><span class="font-weight-bold">Número do pedido:</span> {{numeroDoPedido}}</p>
+				<p>Guarde este número para futura consulta.</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+			</div>
+		  </div>
+		</div>
+	  </div>
 </div>

@@ -18,20 +18,20 @@
 				<div class="collapse navbar-collapse" id="navbarText">
 					<ul class="navbar-nav mr-auto">
 						<li class="nav-item active">
-							<a class="nav-link" href="#/comprar">Comprar <span class="sr-only">(atual)</span></a>
+							<a class="nav-link" href="#/comprar">Comprar</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="#/pedidos">Pedidos</a>
 						</li>
 					</ul>
 					<span class="navbar-text">
-						<a class="text-info" href="#/cadastro">Cadastro</a> | <a class="text-info" href="#/login">Login</a>
+						<a class="text-info" role="button" href="#/cadastro">Cadastro</a> <span aria-hidden="true">|</span><span class="sr-only">ou</span> <a class="text-info" role="button" href="#/login">Login</a>
 					</span>
 				</div>
 			</nav>
 		</header>
 
-		<main>
+		<main autofocus>
 			<ng-view></ng-view>
 		</main>
 
@@ -44,9 +44,13 @@
 		
 		<script src="js/main.js"></script>
 		<script src="js/route.js"></script>
+		<script src="js/services.js"></script>
 
 		<script src="js/services/PetsByStatus.js"></script>
+		<script src="js/services/MakeOrder.js"></script>
+		<script src="js/services/SavePet.js"></script>
 
 		<script src="js/controllers/ComprarCtrl.js"></script>
+		<script src="js/controllers/PedidosCtrl.js"></script>
 	</body>
 </html>
