@@ -1,9 +1,23 @@
-app.controller('PedidosCtrl', function($scope, OrderByID, PetByID) {
+app.controller('PedidosCtrl', function($scope, OrderByID, PetByID, SavePet, MakeOrder) {
+    var pedidoOriginal = null;
+    var orderIDPedido = -1;
+
     /*--------- Funções ---------*/
+    var anularPedidoPet = function () {
+        $scope.pedidoPronto = false;
+        $scope.petPedidoPronto = false;
+        $scope.pedido = null;
+        $scope.petPedido = null;
+    };
+
+    /*--------- Funções $scope ---------*/
     $scope.getOrderByID = function (orderID) {
+        orderIDPedido = orderID;
+
         if (orderID != null && orderID !== "") {
             /* Pegando o pedido na API */
-            $scope.pedido = OrderByID.query(orderID);
+            pedidoOriginal = OrderByID.query(orderID);
+            $scope.pedido = pedidoOriginal;
 
             //$scope.pedido = getOrderByID(4535435465);
 
@@ -11,7 +25,8 @@ app.controller('PedidosCtrl', function($scope, OrderByID, PetByID) {
                 $scope.pedidoPronto = true;
 
                 /* Cuidando da data */
-                var datePedido = new Date($scope.pedido.shipDate);
+                $scope.pedido.shipDateFormatted = $scope.pedido.shipDate;
+                var datePedido = new Date($scope.pedido.shipDateFormatted);
                 var dd = datePedido.getDate();
                 var mm = datePedido.getMonth()+1;
                 var yyyy = datePedido.getFullYear();
@@ -21,7 +36,7 @@ app.controller('PedidosCtrl', function($scope, OrderByID, PetByID) {
                 if(mm<10) {
                     mm = '0'+mm
                 }
-                $scope.pedido.shipDate = [dd, mm, yyyy].join('/');
+                $scope.pedido.shipDateFormatted = [dd, mm, yyyy].join('/');
 
                 /* Pegando o animal na API */
                 $scope.petPedido = PetByID.query($scope.pedido.petId);
@@ -35,11 +50,42 @@ app.controller('PedidosCtrl', function($scope, OrderByID, PetByID) {
 
                 console.log($scope.pedido);
             }, function() { //Caso não for possível pegar o pedido
-                $scope.pedidoPronto = false;
-                $scope.petPedidoPronto = false;
-                $scope.pedido = null;
-                $scope.petPedido = null;
+                anularPedidoPet();
             });
         };
-    }
+    };
+
+    $scope.cancelarPedido = function () {
+        $scope.pedido.$promise.then(function() {
+            //$scope.petPedido.status = 'disponivel';
+            var petToSave = new SavePet($scope.petPedido);
+            petToSave.status = 'disponivel';
+            var resourcePetToSave = petToSave.$update();
+
+            //$scope.pedido.status = 'cancelado';
+            var order = new MakeOrder(pedidoOriginal);
+            order.status = 'cancelado';
+            var orderResource = order.$update();
+
+            var pedidoNaoEfetuado = function () {
+                $scope.numeroPedidoCancelado = orderIDPedido;
+                $scope.pedidoCanceladoSucesso = false;
+            };
+            
+            resourcePetToSave.then(function() {
+                orderResource.then(function() {
+                    $scope.getOrderByID(orderIDPedido);
+                    $scope.pedido.$promise.then(function() {
+                        $scope.numeroPedidoCancelado = orderIDPedido;
+                        $scope.pedidoCanceladoSucesso = true;
+                    });
+                }, pedidoNaoEfetuado);
+            }, pedidoNaoEfetuado);
+        });
+    };
+
+    $scope.fecharAlertConfirmacao = function () {
+        $scope.numeroPedidoCancelado = null;
+        $scope.pedidoCanceladoSucesso = null;
+    };
 });
