@@ -11,14 +11,14 @@
 				
 				<div class="form-group">
 					<label for="inputUsuario">Nome de usuário</label>
-					<input type="text" class="form-control" id="inputUsuario" placeholder="Usuário">
+					<input type="text" class="form-control" id="inputUsuario" placeholder="Usuário" ng-model="user.username">
 				</div>
 				<div class="form-group">
 					<label for="inputSenha">Senha</label>
-					<input type="password" class="form-control" id="inputSenha" placeholder="Senha">
+					<input type="password" class="form-control" id="inputSenha" placeholder="Senha" ng-model="user.password">
 				</div>
 				<div class="form-group">
-					<button type="submit" class="btn btn-outline-primary btn-block">Entrar</button>
+					<button type="submit" class="btn btn-outline-primary btn-block" ng-click="entrarClick()">Entrar</button>
 				</div>
 
 				<span>É novo aqui? <a role="link" href="#/cadastro" aria-label="Clique aqui para cadastrar uma nova conta">Cadastre uma nova conta</a></span>
