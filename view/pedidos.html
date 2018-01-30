@@ -3,6 +3,20 @@
 </section>
 
 <div class="container">
+    <div ng-hide="pedidoCanceladoSucesso != true" class="alert alert-success alert-dismissible fade show" role="alert">
+        Cancelamento do pedido {{numeroPedidoCancelado}} efetuado com sucesso!
+        <button ng-click="fecharAlertConfirmacao" type="button" class="close" data-dismiss="alert" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div ng-hide="pedidoCanceladoSucesso != false" class="alert alert-danger alert-dismissible fade show" role="alert">
+        Cancelamento do pedido {{numeroPedidoCancelado}} não pode ser efetuado!
+        <button ng-click="fecharAlertConfirmacao" type="button" class="close" data-dismiss="alert" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
     <div class="input-group mb-3">
         <div class="input-group-prepend">
             <span class="input-group-text" id="busca-por-numero-pedido" aria-label="Campo de busca por número do pedido">Número do pedido:</span>
@@ -22,7 +36,7 @@
         <div class="info">
             <p class="no-margin"><span class="font-weight-bold">Número do pedido:</span> {{pedido.id}}</p>
             <!--<p><span  class="font-weight-bold">Quantidade:</span> {{pedido.quantity}}</p>-->
-            <p class="no-margin"><span class="font-weight-bold">Data de entrega estimada:</span> {{pedido.shipDate}}</p>
+            <p class="no-margin"><span class="font-weight-bold">Data de entrega estimada:</span> {{pedido.shipDateFormatted}}</p>
             <p class="no-margin"><span class="font-weight-bold">Estado do pedido:</span> {{pedido.status}}</p>
 
             <div class="no-margin" ng-hide="petPedidoPronto != true">
@@ -38,5 +52,28 @@
                 </div>
             </div>
         </div>
+
+        <button type="button" ng-hide="pedido.status === 'cancelado' || pedido.status == null" class="btn btn-outline-danger" data-toggle="modal" data-target="#confirmacaoModal">Cancelar Pedido</button>
     </div>
+
+    <!-- Modal Confirmação Cancelamento -->
+	<div class="modal fade" id="confirmacaoModal" tabindex="-1" role="dialog" aria-labelledby="confirmacaoModalTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+		  <div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="confirmacaoModalTitle">Confirmação de Cancelamento</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<p>Você tem certeza que deseja cancelar o pedido?</p>
+			</div>
+			<div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Botão de não desejo cancelar o pedido">Não</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Botão de desejo cancelar o pedido" ng-click="cancelarPedido()">Sim</button>
+			</div>
+		  </div>
+		</div>
+	  </div>
 </div>
