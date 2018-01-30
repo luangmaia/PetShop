@@ -18,7 +18,8 @@ app.config(function($routeProvider) {
     });
 
     $routeProvider.when('/login', {
-        template: '<p>Em construção!</p>'
+        templateUrl: 'view/login.html',
+        controller: 'LoginCtrl'
     });
 
     $routeProvider.otherwise({redirectTo: '/#'});

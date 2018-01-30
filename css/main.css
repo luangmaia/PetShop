@@ -1,5 +1,6 @@
 section {
-    padding: 1rem;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
 }
 
 .tag-animal {
@@ -8,4 +9,18 @@ section {
 
 .no-margin {
     margin: 0;
+}
+
+.top-padding-2 {
+    padding-top: 2rem;
+}
+
+.padding-left-right-4 {
+    padding-right: 4rem;
+    padding-left: 4rem;
+}
+
+.padding-top-bottom-2 {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
 }
