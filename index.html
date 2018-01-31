@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br" ng-app="app">
+<html lang="pt-br" ng-app="app" ng-controller="IndexCtrl">
 	<head>
 		<meta charset="utf-8" />
 		<title>Pet Shop</title>
@@ -8,6 +8,7 @@
 		<link rel="stylesheet" href="css/main.css"></link>
 		<link rel="stylesheet" href="css/comprar.css"></link>
 		<link rel="stylesheet" href="css/pedidos.css"></link>
+		<link rel="stylesheet" href="css/login.css"></link>
 	</head>
 	<body>
 		<header>
@@ -26,7 +27,8 @@
 						</li>
 					</ul>
 					<span class="navbar-text">
-						<a class="text-info" role="button" href="#/cadastro">Cadastro</a> <span aria-hidden="true">|</span><span class="sr-only">ou</span> <a class="text-info" role="button" href="#/login">Login</a>
+						<span ng-hide="$storage.userLogged != null"><a class="text-info" role="button" href="#/cadastro">Cadastro</a> <span aria-hidden="true">|</span><span class="sr-only">ou</span> <a class="text-info" role="button" href="#/login">Login</a></span>
+						<span ng-hide="$storage.userLogged == null">Olá, {{$storage.userLogged.firstName}} {{$storage.userLogged.lastName}}. <a class="text-info" role="button" aria-label="Clique aqui para sair" href="" ng-click="deslogar()">Sair</a></span>
 					</span>
 				</div>
 			</nav>
@@ -39,6 +41,7 @@
 		<script src="lib/angular.min.js"></script>
 		<script src="lib/angular-resource.min.js"></script>
 		<script src="lib/angular-route.min.js"></script>
+		<script src="lib/angular-storage.js"></script>
 		<script src="lib/jquery-3.2.1.slim.min.js"></script>
 		<script src="lib/popper.min.js"></script>
 		<script src="lib/bootstrap.min.js"></script>
@@ -52,8 +55,11 @@
 		<script src="js/services/SavePet.js"></script>
 		<script src="js/services/OrderByID.js"></script>
 		<script src="js/services/PetByID.js"></script>
+		<script src="js/services/UserByUsername.js"></script>
 
+		<script src="js/controllers/IndexCtrl.js"></script>
 		<script src="js/controllers/ComprarCtrl.js"></script>
 		<script src="js/controllers/PedidosCtrl.js"></script>
+		<script src="js/controllers/LoginCtrl.js"></script>
 	</body>
 </html>

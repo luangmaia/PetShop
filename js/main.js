@@ -1,1 +1,1 @@
-var app = angular.module('app', ['ngRoute', 'services']);
+var app = angular.module('app', ['ngRoute', 'services', 'ngStorage']);
