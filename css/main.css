@@ -24,3 +24,15 @@ section {
     padding-top: 2rem;
     padding-bottom: 2rem;
 }
+
+.ng-dirty.ng-invalid.ng-invalid-required {
+    border-color: #dc3545;
+}
+
+.ng-dirty.ng-invalid.ng-invalid-required + .invalid-feedback {
+    display: block;
+}
+
+.submit-form:disabled {
+    opacity: .35;
+}

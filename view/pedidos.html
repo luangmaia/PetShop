@@ -5,14 +5,14 @@
 
     <div ng-hide="pedidoCanceladoSucesso != true" class="alert alert-success alert-dismissible fade show" role="alert">
         Cancelamento do pedido {{numeroPedidoCancelado}} efetuado com sucesso!
-        <button ng-click="fecharAlertConfirmacao" type="button" class="close" data-dismiss="alert" aria-label="Fechar">
+        <button ng-click="fecharAlertConfirmacao" type="button" class="close" aria-label="Fechar alerta">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
 
     <div ng-hide="pedidoCanceladoSucesso != false" class="alert alert-danger alert-dismissible fade show" role="alert">
         Cancelamento do pedido {{numeroPedidoCancelado}} não pode ser efetuado!
-        <button ng-click="fecharAlertConfirmacao" type="button" class="close" data-dismiss="alert" aria-label="Fechar">
+        <button ng-click="fecharAlertConfirmacao" type="button" class="close" aria-label="Fechar alerta">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>

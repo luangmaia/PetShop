@@ -4,6 +4,11 @@ app.controller('LoginCtrl', function($scope, $localStorage, $window, UserByUsern
         $window.location.href = '#/comprar';
     }
 
+    /* Funções */
+    var fecharAlertIncorreto = function () {
+        $scope.alertIncorreto = false;
+    };
+
     /* Funções $scope */
     $scope.entrarClick = function () {
         console.log("Tentativa de login");
@@ -16,9 +21,22 @@ app.controller('LoginCtrl', function($scope, $localStorage, $window, UserByUsern
                 $window.location.href = '#/comprar';
             } else {
                 console.log("Senha incorreta");
+                $scope.alertIncorreto = true;
             }
         }, function () {
             console.log("Usuário não existe");
+            $scope.alertIncorreto = true;
         });
+    };
+
+    $scope.inputChange = function () {
+        fecharAlertIncorreto();
+
+        if ($scope.user.password != null && $scope.user.username != null && 
+            $scope.user.password.length > 0 && $scope.user.username.length > 0) {
+            $scope.formValid = true;
+        } else {
+            $scope.formValid = false;
+        }
     };
 });
