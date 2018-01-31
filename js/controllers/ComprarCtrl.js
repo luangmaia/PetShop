@@ -1,4 +1,5 @@
-app.controller('ComprarCtrl', function($scope, PetsByStatus, MakeOrder, SavePet) {
+app.controller('ComprarCtrl', function($scope, $localStorage, PetsByStatus, MakeOrder, SavePet) {
+	$scope.$storage = $localStorage;
 	$scope.arrayPets = [];
 	var arrayPets = [];
 	var aux = [];
@@ -24,7 +25,6 @@ app.controller('ComprarCtrl', function($scope, PetsByStatus, MakeOrder, SavePet)
 		} else {
 			paginaAtual = pagina;
 		}
-		console.log("Pagina atual: " + paginaAtual);
 
 		$scope.arrayPets = [];
 
@@ -41,9 +41,11 @@ app.controller('ComprarCtrl', function($scope, PetsByStatus, MakeOrder, SavePet)
 		
 		$scope.pets = PetsByStatus.query('disponivel');
 		$scope.pets.$promise.then(function () {
-			console.log($scope.pets);
-
 			$scope.pets.forEach(function(pet, index) {
+				if (pet.id == 9205436248879931000) {
+					return;
+				}
+
 				if (aux.length == 4) {
 					arrayPets.push(aux);
 					aux = [];
@@ -58,15 +60,10 @@ app.controller('ComprarCtrl', function($scope, PetsByStatus, MakeOrder, SavePet)
 				arrayPets.push(aux);
 				aux = [];
 			}
-
-			console.log("arrayPets depois");
-			console.log(arrayPets);
 	
 			atualizarPaginacao(paginaAtual);
 	
-			console.log("$scope.arrayPets.length = " + $scope.arrayPets.length);
-			console.log("arrayPets.length = " + arrayPets.length);
-			$scope.paginas = new Array(Math.floor(((arrayPets.length-1/2))));
+			$scope.paginas = new Array((Math.floor((arrayPets.length-1)/2))+1);
 		});
 	}
 
@@ -117,7 +114,6 @@ app.controller('ComprarCtrl', function($scope, PetsByStatus, MakeOrder, SavePet)
 		if(mm<10) {
 			mm = '0'+mm
 		}
-		console.log([dd, mm, yyyy].join('/'));
 		$scope.dataDeEntrega = [dd, mm, yyyy].join('/');
 		$scope.petEscolhido = $scope.arrayPets[parentIndex][index];
 	};
@@ -149,9 +145,6 @@ app.controller('ComprarCtrl', function($scope, PetsByStatus, MakeOrder, SavePet)
 		$scope.petEscolhido.status = "vendido";
 		var petToSave = new SavePet($scope.petEscolhido);
 		var resourcePetToSave = petToSave.$update();
-		console.log(resourcePetToSave);
-		console.log(petToSave);
-		console.log($scope.petEscolhido);
 
 		var order = new MakeOrder(order);
 
@@ -159,9 +152,7 @@ app.controller('ComprarCtrl', function($scope, PetsByStatus, MakeOrder, SavePet)
 
 		orderResource.then(function() {
 			resourcePetToSave.then(function() {
-				console.log("Tamanho $scope.pets: " + $scope.pets.length);
 				$scope.numeroDoPedido = order.id;
-				//console.log("numeroDoPedido = " + $scope.numeroDoPedido);
 				getPetsBD();
 			});
 		});

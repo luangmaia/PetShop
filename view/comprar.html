@@ -1,18 +1,8 @@
-<section>
-	<h2>Animais disponíveis</h2>
-</section>
-<!--<div ng-repeat="pet in pets">
-	<figure>
-		<button ng-click="botaoFotoAnterior()"><div hidden>Foto anterior</div><img src="images/icons/svg/chevron-left.svg"></button>
-		<img ng-src="{{pet.photoUrls[indexFotoAtual]}}" alt="Foto do animal">
-		<button ng-click="botaoProximaFoto($index)"><div hidden>Próxima foto</div><img src="images/icons/svg/chevron-right.svg"></button>
-		<figcaption>{{pet.name}}</figcaption>
-	</figure>
-	<p>Categoria: {{pet.category.name}}</p>
-	<p>Tags: <div ng-repeat="tag in pet.tags">{{tag.name + ' '}}</div></p>
-	<button>Comprar <img src="images/icons/svg/cart.svg" aria-hidden="true"></button>
-</div>-->
 <div class="container">
+	<section>
+		<h2>Animais disponíveis</h2>
+	</section>
+
 	<div class="row" ng-repeat="rowPets in arrayPets track by $index">
 		<div class="card col-3 card-animal" ng-repeat="pet in rowPets">
 			<span class="sr-only">Dados do animal de nome {{pet.name}}</span>
@@ -32,10 +22,10 @@
 				<span class="sr-only">Informações</span>
 				<h5 class="card-title"><span class="sr-only">Nome do animal: </span>{{pet.name}}</h5>
 				<p class="card-text">Categoria: {{pet.category.name}}</p>
-				<p class="card-text">Tags: <span ng-repeat="tag in pet.tags">'{{tag.name}}' </span></p>
+				<p class="card-text">Tags: <span ng-repeat="tag in pet.tags" class="tag-animal">'{{tag.name}}' </span></p>
 			</div>
 			<div class="card-footer">
-				<a href="" class="btn btn-outline-info btn-block" ng-click="clickComprar($parent.$index, $index)" role="button" data-toggle="modal"  data-target=".modalInformacoesPedido">Comprar</a>
+				<a href="" class="btn btn-outline-info btn-block" ng-hide="$storage.userLogged == null" ng-click="clickComprar($parent.$index, $index)" role="button" data-toggle="modal"  data-target=".modalInformacoesPedido">Comprar</a>
 			</div>
 		</div>
 	</div>
@@ -68,7 +58,7 @@
 							<span class="sr-only">Informações</span>
 							<h5 class="card-title"><span class="sr-only">Nome do animal: </span>{{petEscolhido.name}}</h5>
 							<p class="card-text">Categoria: {{petEscolhido.category.name}}</p>
-							<p class="card-text">Tags: <span ng-repeat="tag in petEscolhido.tags">'{{tag.name}}' </span></p>
+							<p class="card-text">Tags: <span class="tag-animal" ng-repeat="tag in petEscolhido.tags">'{{tag.name}}' </span></p>
 							<p><span class="font-weight-bold">Data de entrega prevista para:</span> {{dataDeEntrega}}</p>
 						</div>
 					</div>
