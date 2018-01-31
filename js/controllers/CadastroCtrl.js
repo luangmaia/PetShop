@@ -6,7 +6,6 @@ app.controller('CadastroCtrl', function($scope, $localStorage, $window, Cadastro
 
     /* Funções $scope */
     $scope.cadastrarClick = function () {
-        console.log("Tentativa de login");
         var userResourceExiste = UserByUsername.query($scope.user.username);
 
         userResourceExiste.$promise.then(function () {
