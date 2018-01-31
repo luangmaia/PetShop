@@ -14,7 +14,8 @@ app.config(function($routeProvider) {
     });
 
     $routeProvider.when('/cadastro', {
-        template: '<p>Em construção!</p>'
+        templateUrl: 'view/cadastro.html',
+        controller: 'CadastroCtrl'
     });
 
     $routeProvider.when('/login', {

@@ -25,11 +25,19 @@ section {
     padding-bottom: 2rem;
 }
 
-.ng-dirty.ng-invalid.ng-invalid-required {
+.ng-dirty.ng-invalid {
     border-color: #dc3545;
 }
 
-.ng-dirty.ng-invalid.ng-invalid-required + .invalid-feedback {
+.ng-dirty.ng-invalid-required {
+    border-color: #dc3545;
+}
+
+.ng-dirty.ng-invalid + .invalid-feedback {
+    display: block;
+}
+
+.ng-dirty.ng-invalid-required + .invalid-feedback {
     display: block;
 }
 
