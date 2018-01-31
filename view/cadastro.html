@@ -1,0 +1,62 @@
+<div class="container top-padding-2">
+	<div ng-hide="alertUsuarioExiste != true" class="alert alert-danger" role="alert">
+		Usuário já cadastrado!
+	</div>
+	<div class="card">
+		<div class="card-header">
+			<h5 class="d-flex justify-content-center">Cadastro</h5>
+			<span class="d-flex justify-content-center">Por favor, preencha o formulário de cadastro.</span>
+		</div>
+		
+		<div class="card-body padding-left-right-4 padding-top-bottom-2">
+			<h5 class="card-title">Cadastro</h5>
+			
+			<form class="needs-validation" novalidate>
+				<div class="form-row">
+					<div class="form-group col-6">
+						<label for="inputNome">Nome<span aria-label=" campo obrigatório">*</span></label>
+						<input type="text" class="form-control" id="inputNome" ng-change="inputChange()" placeholder="Nome" ng-model="user.firstName" maxlength="20" required>
+						<div class="invalid-feedback">
+							<span>Este campo é obrigatório.</span>
+						</div>
+					</div>
+					<div class="form-group col-6">
+						<label for="inputSobrenome">Sobrenome<span aria-label=" campo obrigatório">*</span></label>
+						<input type="text" class="form-control" id="inputSobrenome" ng-change="inputChange()" placeholder="Sobrenome" ng-model="user.lastName" maxlength="30" required>
+						<div class="invalid-feedback">
+							<span>Este campo é obrigatório.</span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputEmail">E-mail<span aria-label=" campo obrigatório">*</span></label>
+					<input type="email" class="form-control" id="inputEmail" ng-change="inputChange()" placeholder="E-mail" ng-model="user.email" maxlength="30" required>
+					<div class="invalid-feedback">
+						<span>Este campo está incorreto.</span>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-6">
+						<label for="inputUsuario">Nome de usuário<span aria-label=" campo obrigatório">*</span></label>
+						<input type="text" class="form-control" id="inputUsuario" ng-change="inputChange();fecharAlertUsuarioExiste()" placeholder="Usuário" ng-model="user.username" maxlength="15" required>
+						<div class="invalid-feedback">
+							<span>Este campo é obrigatório.</span>
+						</div>
+					</div>
+					<div class="form-group col-6">
+						<label for="inputSenha">Senha<span aria-label=" campo obrigatório">*</span></label>
+						<input type="password" class="form-control" id="inputSenha" ng-change="inputChange()" placeholder="Senha" ng-model="user.password" maxlength="20" required>
+						<div class="invalid-feedback">
+							Este campo é obrigatório.
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" ng-disabled="formValid != true" class="btn btn-outline-primary btn-block submit-form" ng-click="cadastrarClick()">Cadastrar</button>
+				</div>
+			</form>
+
+			<span>Já possui cadastro? <a role="link" href="#/login" aria-label="Clique aqui para entrar em sua conta">Entre na sua conta</a></span>
+		</div>
+	</div>
+</div>

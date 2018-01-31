@@ -5,21 +5,21 @@
 
     <div ng-hide="pedidoCanceladoSucesso != true" class="alert alert-success alert-dismissible fade show" role="alert">
         Cancelamento do pedido {{numeroPedidoCancelado}} efetuado com sucesso!
-        <button ng-click="fecharAlertConfirmacao" type="button" class="close" aria-label="Fechar alerta">
+        <button ng-click="fecharAlertConfirmacao()" type="button" class="close" aria-label="Fechar alerta">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
 
     <div ng-hide="pedidoCanceladoSucesso != false" class="alert alert-danger alert-dismissible fade show" role="alert">
         Cancelamento do pedido {{numeroPedidoCancelado}} não pode ser efetuado!
-        <button ng-click="fecharAlertConfirmacao" type="button" class="close" aria-label="Fechar alerta">
+        <button ng-click="fecharAlertConfirmacao()" type="button" class="close" aria-label="Fechar alerta">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
 
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <span class="input-group-text" id="busca-por-numero-pedido" aria-label="Campo de busca por número do pedido">Número do pedido:</span>
+            <span class="input-group-text" id="busca-por-numero-pedido" aria-label="Campo de busca por número do pedido">Número do pedido</span>
         </div>
         <input type="number" min="0" class="form-control" placeholder="Pedido" ng-model="pedidoID" aria-label="Campo do número do pedido" aria-describedby="busca-por-numero-pedido">
         <div class="input-group-append">

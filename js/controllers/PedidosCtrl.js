@@ -1,4 +1,8 @@
-app.controller('PedidosCtrl', function($scope, OrderByID, PetByID, SavePet, MakeOrder) {
+app.controller('PedidosCtrl', function($scope, $localStorage, $window, OrderByID, PetByID, SavePet, MakeOrder) {
+    if ($localStorage.userLogged == null) {
+        $window.location.href = '#/login';
+    }
+
     var pedidoOriginal = null;
     var orderIDPedido = -1;
 
@@ -42,13 +46,11 @@ app.controller('PedidosCtrl', function($scope, OrderByID, PetByID, SavePet, Make
                 $scope.petPedido = PetByID.query($scope.pedido.petId);
                 $scope.petPedido.$promise.then(function () {
                     $scope.petPedidoPronto = true;
-                    console.log($scope.petPedido);
                 }, function () { 
                     $scope.petPedidoPronto = false;
                     $scope.petPedido = null;
                 });
 
-                console.log($scope.pedido);
             }, function() { //Caso não for possível pegar o pedido
                 anularPedidoPet();
             });
