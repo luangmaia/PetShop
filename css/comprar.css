@@ -16,12 +16,18 @@
     border: 0;
 }
 
-.foto-e-btns .card-img-top {
+.card-animal .foto-e-btns .card-img-top {
     width: 65%;
 }
 
-.foto-e-btns button {
+.card-animal .foto-e-btns button {
     width: 15%;
+    height: 100%;
+}
+
+.img-modal-compra {
+    padding-left: 5px;
+    padding-right: 5px;
     height: 100%;
 }
 

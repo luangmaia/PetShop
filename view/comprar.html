@@ -8,12 +8,12 @@
 			<span class="sr-only">Dados do animal de nome {{pet.name}}</span>
 			<div class="foto-e-btns">
 				<span class="sr-only">Troca de fotos</span>
-				<button class="btn btn-outline-secondary" ng-disabled="pet.flagBotaoAnterior" aria-disabled="pet.flagBotaoAnterior" ng-click="botaoFotoAnterior($parent.$index, $index)" aria-label="Foto anterior">
+				<button class="btn btn-outline-secondary" ng-disabled="pet.flagBotaoAnterior" aria-disabled="pet.flagBotaoAnterior" ng-click="botaoFotoAnterior(pet)" aria-label="Foto anterior">
 					<span class="sr-only">Foto anterior</span>
 					<img src="images/icons/svg/chevron-left.svg">
 				</button>
 				<img class="card-img-top" ng-src="{{pet.photoUrls[pet.indexFotoAtual]}}" alt="Foto de {{pet.name}}">
-				<button class="btn btn-outline-secondary" ng-disabled="pet.flagBotaoProximo" aria-disabled="pet.flagBotaoAnterior" ng-click="botaoProximaFoto($parent.$index, $index)" aria-label="Próxima foto">
+				<button class="btn btn-outline-secondary" ng-disabled="pet.flagBotaoProximo" aria-disabled="pet.flagBotaoAnterior" ng-click="botaoProximaFoto(pet)" aria-label="Próxima foto">
 					<span class="sr-only">Próxima foto</span>
 					<img src="images/icons/svg/chevron-right.svg">
 				</button>
@@ -25,15 +25,15 @@
 				<p class="card-text">Tags: <span ng-repeat="tag in pet.tags" class="tag-animal">'{{tag.name}}' </span></p>
 			</div>
 			<div class="card-footer">
-				<a href="" class="btn btn-outline-info btn-block" ng-hide="$storage.userLogged == null" ng-click="clickComprar($parent.$index, $index)" role="button" data-toggle="modal"  data-target=".modalInformacoesPedido">Comprar</a>
+				<a href="" class="btn btn-outline-info btn-block" ng-hide="$storage.userLogged == null" ng-click="clickComprar(pet)" role="button" data-toggle="modal"  data-target=".modalInformacoesPedido">Comprar</a>
 			</div>
 		</div>
 	</div>
 	<div class="row justify-content-center">
 		<nav aria-label="Paginação">
 			<ul class="pagination" aria-label="Botões da paginação">
-				<li class="page-item" ng-repeat="pagina in paginas track by $index">
-					<a class="page-link" href="" ng-click="clickPagina($index)" role="button">{{$index+1}}</a>
+				<li class="page-item" ng-class="{'active' : $index == paginaAtual}" ng-repeat="pagina in paginas track by $index">
+					<a class="page-link" href="" ng-click="clickPagina($index)" role="button">{{$index+1}}<span class="sr-only" ng-hide="$index != paginaAtual"> (atual)</span></a>
 				</li>
 			</ul>
 		</nav>
@@ -52,7 +52,19 @@
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-6">
-							<img class="col-12" ng-src="{{petEscolhido.photoUrls[petEscolhido.indexFotoAtual]}}" alt="Foto de {{petEscolhido.name}}">
+							<span class="sr-only">Dados do animal de nome {{petEscolhido.name}}</span>
+							<div class="foto-e-btns col-12 row">
+								<span class="sr-only">Troca de fotos</span>
+								<button class="btn btn-outline-secondary col-2" ng-disabled="petEscolhido.flagBotaoAnterior" aria-disabled="petEscolhido.flagBotaoAnterior" ng-click="botaoFotoAnterior(petEscolhido)" aria-label="Foto anterior">
+									<span class="sr-only">Foto anterior</span>
+									<img src="images/icons/svg/chevron-left.svg">
+								</button>
+								<img class="col-8 img-modal-compra" ng-src="{{petEscolhido.photoUrls[petEscolhido.indexFotoAtual]}}" alt="Foto de {{petEscolhido.name}}">
+								<button class="btn btn-outline-secondary col-2" ng-disabled="petEscolhido.flagBotaoProximo" aria-disabled="petEscolhido.flagBotaoAnterior" ng-click="botaoProximaFoto(petEscolhido)" aria-label="Próxima foto">
+									<span class="sr-only">Próxima foto</span>
+									<img src="images/icons/svg/chevron-right.svg">
+								</button>
+							</div>
 						</div>
 						<div class="col-6">
 							<span class="sr-only">Informações</span>

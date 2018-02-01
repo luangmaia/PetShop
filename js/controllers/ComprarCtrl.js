@@ -1,9 +1,11 @@
 app.controller('ComprarCtrl', function($scope, $localStorage, PetsByStatus, MakeOrder, SavePet) {
-	$scope.$storage = $localStorage;
+	$localStorage.viewAtual = "comprar";
+    
+    $scope.$storage = $localStorage;
 	$scope.arrayPets = [];
 	var arrayPets = [];
 	var aux = [];
-	var paginaAtual = 0;
+	$scope.paginaAtual = 0;
 
 	/* Funções locais */
 	var mudarFlagBotao = function (pet) {
@@ -20,26 +22,25 @@ app.controller('ComprarCtrl', function($scope, $localStorage, PetsByStatus, Make
 	}
 
 	var atualizarPaginacao = function (pagina) {
-		if ($scope.pets.length <= pagina*8) {
-			paginaAtual = pagina-1;
+		if (arrayPets.length <= pagina*2) {
+			$scope.paginaAtual = pagina-1;
 		} else {
-			paginaAtual = pagina;
+			$scope.paginaAtual = pagina;
 		}
 
 		$scope.arrayPets = [];
 
-		if (arrayPets.length >= paginaAtual*2+2) {
-			$scope.arrayPets.push(arrayPets[paginaAtual*2]);
-			$scope.arrayPets.push(arrayPets[paginaAtual*2+1]);
+		if (arrayPets.length >= $scope.paginaAtual*2+2) {
+			$scope.arrayPets.push(arrayPets[$scope.paginaAtual*2]);
+			$scope.arrayPets.push(arrayPets[$scope.paginaAtual*2+1]);
 		} else {
-			$scope.arrayPets.push(arrayPets[paginaAtual*2]);
+			$scope.arrayPets.push(arrayPets[$scope.paginaAtual*2]);
 		}
 	}
 
-	var getPetsBD = function() {
+	var colocarPetsNaArrayRow = function () {
 		arrayPets = [];
-		
-		$scope.pets = PetsByStatus.query('disponivel');
+
 		$scope.pets.$promise.then(function () {
 			$scope.pets.forEach(function(pet, index) {
 				if (pet.id == 9205436248879931000) {
@@ -61,39 +62,45 @@ app.controller('ComprarCtrl', function($scope, $localStorage, PetsByStatus, Make
 				aux = [];
 			}
 	
-			atualizarPaginacao(paginaAtual);
+			atualizarPaginacao($scope.paginaAtual);
 	
 			$scope.paginas = new Array((Math.floor((arrayPets.length-1)/2))+1);
 		});
+	};
+
+	var getPetsBD = function() {
+		$scope.pets = PetsByStatus.query('disponivel');
+		
+		colocarPetsNaArrayRow();
 	}
 
 	/* Acesso a API */
 	getPetsBD();
 
 	/* Funções no escopo */
-	$scope.botaoFotoAnterior = function(parentIndex, index) {
+	$scope.botaoFotoAnterior = function(pet) {
 		$scope.pets.$promise.then(function () {
-			if (typeof $scope.arrayPets[parentIndex][index].indexFotoAtual == 'undefined') {
-				$scope.arrayPets[parentIndex][index].indexFotoAtual = 0;
+			if (typeof pet.indexFotoAtual == 'undefined') {
+				pet.indexFotoAtual = 0;
 			}
-			if ($scope.arrayPets[parentIndex][index].indexFotoAtual > 0) {
-				$scope.arrayPets[parentIndex][index].indexFotoAtual--;
+			if (pet.indexFotoAtual > 0) {
+				pet.indexFotoAtual--;
 			}
 
-			mudarFlagBotao($scope.arrayPets[parentIndex][index]);
+			mudarFlagBotao(pet);
 		});
 	};
 
-	$scope.botaoProximaFoto = function(parentIndex, index) {
+	$scope.botaoProximaFoto = function(pet) {
 		$scope.pets.$promise.then(function () {
-			if (typeof $scope.arrayPets[parentIndex][index].indexFotoAtual == 'undefined') {
-				$scope.arrayPets[parentIndex][index].indexFotoAtual = 0;
+			if (typeof pet.indexFotoAtual == 'undefined') {
+				pet.indexFotoAtual = 0;
 			}
-			if ($scope.arrayPets[parentIndex][index].indexFotoAtual < $scope.arrayPets[parentIndex][index].photoUrls.length-1) {
-				$scope.arrayPets[parentIndex][index].indexFotoAtual++;
+			if (pet.indexFotoAtual < pet.photoUrls.length-1) {
+				pet.indexFotoAtual++;
 			}
 
-			mudarFlagBotao($scope.arrayPets[parentIndex][index]);
+			mudarFlagBotao(pet);
 		});
 	};
 
@@ -101,7 +108,7 @@ app.controller('ComprarCtrl', function($scope, $localStorage, PetsByStatus, Make
 		atualizarPaginacao(index);
 	};
 
-	$scope.clickComprar = function(parentIndex, index) {
+	$scope.clickComprar = function(pet) {
 		var today = new Date();
 		today.setDate(today.getDate() + 3);
 		var dd = today.getDate();
@@ -115,7 +122,7 @@ app.controller('ComprarCtrl', function($scope, $localStorage, PetsByStatus, Make
 			mm = '0'+mm
 		}
 		$scope.dataDeEntrega = [dd, mm, yyyy].join('/');
-		$scope.petEscolhido = $scope.arrayPets[parentIndex][index];
+		$scope.petEscolhido = pet;
 	};
 
 	$scope.clickConfirmarPedido = function() {

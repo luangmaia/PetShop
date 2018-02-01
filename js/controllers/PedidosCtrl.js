@@ -1,10 +1,14 @@
 app.controller('PedidosCtrl', function($scope, $localStorage, $window, OrderByID, PetByID, SavePet, MakeOrder) {
+    $localStorage.viewAtual = "pedidos";
+    
     if ($localStorage.userLogged == null) {
         $window.location.href = '#/login';
     }
 
     var pedidoOriginal = null;
     var orderIDPedido = -1;
+    
+    var inputAnterior = "";
 
     /*--------- Funções ---------*/
     var anularPedidoPet = function () {
@@ -13,6 +17,19 @@ app.controller('PedidosCtrl', function($scope, $localStorage, $window, OrderByID
         $scope.pedido = null;
         $scope.petPedido = null;
     };
+
+    var mudarFlagBotao = function (pet) {
+		if (pet.indexFotoAtual == 0 && pet.indexFotoAtual == pet.photoUrls.length-1) {
+			pet.flagBotaoAnterior = true;
+			pet.flagBotaoProximo = true;
+		} else if (pet.indexFotoAtual == 0) {
+			pet.flagBotaoAnterior = true;
+			pet.flagBotaoProximo = false;
+		} else if (pet.indexFotoAtual == pet.photoUrls.length-1) {
+			pet.flagBotaoAnterior = false;
+			pet.flagBotaoProximo = true;
+		}
+	};
 
     /*--------- Funções $scope ---------*/
     $scope.getOrderByID = function (orderID) {
@@ -46,6 +63,8 @@ app.controller('PedidosCtrl', function($scope, $localStorage, $window, OrderByID
                 $scope.petPedido = PetByID.query($scope.pedido.petId);
                 $scope.petPedido.$promise.then(function () {
                     $scope.petPedidoPronto = true;
+                    $scope.petPedido.indexFotoAtual = 0;
+                    mudarFlagBotao($scope.petPedido);
                 }, function () { 
                     $scope.petPedidoPronto = false;
                     $scope.petPedido = null;
@@ -90,4 +109,39 @@ app.controller('PedidosCtrl', function($scope, $localStorage, $window, OrderByID
         $scope.numeroPedidoCancelado = null;
         $scope.pedidoCanceladoSucesso = null;
     };
+
+    $scope.botaoFotoAnterior = function(pet) {
+		$scope.petPedido.$promise.then(function () {
+			if (typeof pet.indexFotoAtual == 'undefined') {
+				pet.indexFotoAtual = 0;
+			}
+			if (pet.indexFotoAtual > 0) {
+				pet.indexFotoAtual--;
+			}
+
+			mudarFlagBotao(pet);
+		});
+	};
+
+	$scope.botaoProximaFoto = function(pet) {
+		$scope.petPedido.$promise.then(function () {
+			if (typeof pet.indexFotoAtual == 'undefined') {
+				pet.indexFotoAtual = 0;
+			}
+			if (pet.indexFotoAtual < pet.photoUrls.length-1) {
+				pet.indexFotoAtual++;
+			}
+
+			mudarFlagBotao(pet);
+		});
+    };
+    
+    $scope.inputChange = function() {
+        var regex = RegExp(/(^[^\-]{0,1})?(^[\d]*)$/);
+        if( regex.exec($scope.pedidoID) != null ) {
+            inputAnterior = $scope.pedidoID;
+        } else {
+            $scope.pedidoID = inputAnterior;
+        }
+    }
 });

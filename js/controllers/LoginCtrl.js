@@ -1,4 +1,6 @@
 app.controller('LoginCtrl', function($scope, $localStorage, $window, UserByUsername) {
+    $localStorage.viewAtual = "login";
+    
     /* Verificar se está logado */
     if ($localStorage.userLogged != null) {
         $window.location.href = '#/comprar';

@@ -21,7 +21,7 @@
         <div class="input-group-prepend">
             <span class="input-group-text" id="busca-por-numero-pedido" aria-label="Campo de busca por número do pedido">Número do pedido</span>
         </div>
-        <input type="number" min="0" class="form-control" placeholder="Pedido" ng-model="pedidoID" aria-label="Campo do número do pedido" aria-describedby="busca-por-numero-pedido">
+        <input type="text" ng-change="inputChange()" min="0" step="1" class="form-control" placeholder="Pedido" ng-model="pedidoID" aria-label="Campo do número do pedido" aria-describedby="busca-por-numero-pedido">
         <div class="input-group-append">
             <button class="btn btn-outline-secondary" type="button" aria-label="Encontrar Pedido" ng-click="getOrderByID(pedidoID)">Encontrar</button>
         </div>
@@ -43,7 +43,19 @@
                 <h5 class="font-weight-bold no-margin">Informações do animal:</h5>
 
                 <div class="info">
-                    <img class="foto-animal no-margin" ng-src="{{petPedido.photoUrls[0]}}" alt="Foto de {{petPedido.name}}">
+                    <span class="sr-only">Dados do animal de nome {{petPedido.name}}</span>
+                    <div class="foto-e-btns">
+                        <span class="sr-only">Troca de fotos</span>
+                        <button class="btn btn-outline-secondary btn-pedido" ng-disabled="petPedido.flagBotaoAnterior" aria-disabled="petPedido.flagBotaoAnterior" ng-click="botaoFotoAnterior(petPedido)" aria-label="Foto anterior">
+                            <span class="sr-only">Foto anterior</span>
+                            <img src="images/icons/svg/chevron-left.svg">
+                        </button>
+                        <img class="foto-animal" ng-src="{{petPedido.photoUrls[petPedido.indexFotoAtual]}}" alt="Foto de {{petPedido.name}}">
+                        <button class="btn btn-outline-secondary btn-pedido" ng-disabled="petPedido.flagBotaoProximo" aria-disabled="petPedido.flagBotaoAnterior" ng-click="botaoProximaFoto(petPedido)" aria-label="Próxima foto">
+                            <span class="sr-only">Próxima foto</span>
+                            <img src="images/icons/svg/chevron-right.svg">
+                        </button>
+                    </div>
 
                     <h6 class="card-title font-weight-bold no-margin"><span class="sr-only">Nome do animal: </span>{{petPedido.name}}</h6>
                     <p class="card-text no-margin"><span  class="font-weight-bold">Categoria:</span> {{petPedido.category.name}}</p>

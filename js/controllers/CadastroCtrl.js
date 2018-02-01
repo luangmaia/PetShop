@@ -1,4 +1,6 @@
 app.controller('CadastroCtrl', function($scope, $localStorage, $window, CadastroService, UserByUsername) {
+    $localStorage.viewAtual = "cadastro";
+    
     /* Verificar se está logado */
     if ($localStorage.userLogged != null) {
         $window.location.href = '#/comprar';
