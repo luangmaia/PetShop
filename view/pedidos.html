@@ -19,53 +19,52 @@
 
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <span class="input-group-text" id="busca-por-numero-pedido" aria-label="Campo de busca por número do pedido">Número do pedido</span>
+            <span class="input-group-text" id="busca-por-numero-pedido" aria-label="Busca para os pedidos">Buscar</span>
         </div>
-        <input type="text" ng-change="inputChange()" min="0" step="1" class="form-control" placeholder="Pedido" ng-model="pedidoID" aria-label="Campo do número do pedido" aria-describedby="busca-por-numero-pedido">
-        <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" aria-label="Encontrar Pedido" ng-click="getOrderByID(pedidoID)">Encontrar</button>
-        </div>
+        <input type="text" class="form-control" placeholder="" ng-model="campoDeBusca" aria-label="Campo de busca para os pedidos" aria-describedby="busca-por-numero-pedido">
     </div>
 
     <div class="alert alert-danger" role="alert" ng-hide="pedidoPronto == true || pedidoPronto == null">
         Pedido não encontrado
     </div>
 
-    <div ng-hide="pedidoPronto != true">
-        <h4 class="font-weight-bold">Informações do pedido:</h4>
-        <div class="info">
-            <p class="no-margin"><span class="font-weight-bold">Número do pedido:</span> {{pedido.id}}</p>
-            <!--<p><span  class="font-weight-bold">Quantidade:</span> {{pedido.quantity}}</p>-->
-            <p class="no-margin"><span class="font-weight-bold">Data de entrega estimada:</span> {{pedido.shipDateFormatted}}</p>
-            <p class="no-margin"><span class="font-weight-bold">Estado do pedido:</span> {{pedido.status}}</p>
+    <div class="card" ng-repeat="pedido in pedidosUser | filter:campoDeBusca | orderBy: ['-status', 'petPedido.name']">
+        <div class="card-body">
+            <h4 class="font-weight-bold">Informações do pedido:</h4>
+            <div class="info">
+                <p class="no-margin"><span class="font-weight-bold">Número do pedido:</span> {{pedido.id}}</p>
+                <!--<p><span  class="font-weight-bold">Quantidade:</span> {{pedido.quantity}}</p>-->
+                <p class="no-margin"><span class="font-weight-bold">Data de entrega estimada:</span> {{pedido.shipDateFormatted}}</p>
+                <p class="no-margin"><span class="font-weight-bold">Estado do pedido:</span> <span class="order-{{pedido.status.toLowerCase()}}">{{pedido.status}}</span></p>
 
-            <div class="no-margin" ng-hide="petPedidoPronto != true">
-                <h5 class="font-weight-bold no-margin">Informações do animal:</h5>
+                <div class="no-margin" ng-hide="pedido.petPedidoPronto != true">
+                    <h5 class="font-weight-bold no-margin">Informações do animal:</h5>
 
-                <div class="info">
-                    <span class="sr-only">Dados do animal de nome {{petPedido.name}}</span>
-                    <div class="foto-e-btns">
-                        <span class="sr-only">Troca de fotos</span>
-                        <button class="btn btn-outline-secondary btn-pedido" ng-disabled="petPedido.flagBotaoAnterior" aria-disabled="petPedido.flagBotaoAnterior" ng-click="botaoFotoAnterior(petPedido)" aria-label="Foto anterior">
-                            <span class="sr-only">Foto anterior</span>
-                            <img src="images/icons/svg/chevron-left.svg">
-                        </button>
-                        <img class="foto-animal" ng-src="{{petPedido.photoUrls[petPedido.indexFotoAtual]}}" alt="Foto de {{petPedido.name}}">
-                        <button class="btn btn-outline-secondary btn-pedido" ng-disabled="petPedido.flagBotaoProximo" aria-disabled="petPedido.flagBotaoAnterior" ng-click="botaoProximaFoto(petPedido)" aria-label="Próxima foto">
-                            <span class="sr-only">Próxima foto</span>
-                            <img src="images/icons/svg/chevron-right.svg">
-                        </button>
+                    <div class="info">
+                        <span class="sr-only">Dados do animal de nome {{pedido.petPedido.name}}</span>
+                        <div class="foto-e-btns">
+                            <span class="sr-only">Troca de fotos</span>
+                            <button class="btn btn-outline-secondary btn-pedido" ng-disabled="pedido.petPedido.flagBotaoAnterior" aria-disabled="pedido.petPedido.flagBotaoAnterior" ng-click="botaoFotoAnterior(pedido.petPedido)" aria-label="Foto anterior">
+                                <span class="sr-only">Foto anterior</span>
+                                <img src="images/icons/svg/chevron-left.svg">
+                            </button>
+                            <img class="foto-animal" ng-src="{{pedido.petPedido.photoUrls[pedido.petPedido.indexFotoAtual]}}" alt="Foto de {{pedido.petPedido.name}}">
+                            <button class="btn btn-outline-secondary btn-pedido" ng-disabled="pedido.petPedido.flagBotaoProximo" aria-disabled="pedido.petPedido.flagBotaoAnterior" ng-click="botaoProximaFoto(pedido.petPedido)" aria-label="Próxima foto">
+                                <span class="sr-only">Próxima foto</span>
+                                <img src="images/icons/svg/chevron-right.svg">
+                            </button>
+                        </div>
+
+                        <h6 class="card-title font-weight-bold no-margin"><span class="sr-only">Nome do animal: </span>{{pedido.petPedido.name}}</h6>
+                        <p class="card-text no-margin"><span  class="font-weight-bold">Categoria:</span> {{pedido.petPedido.category.name}}</p>
+                        <p class="card-text no-margin"><span  class="font-weight-bold">Tags:</span> <span class="tag-animal" ng-repeat="tag in pedido.petPedido.tags">'{{tag.name}}' </span></p>
+                        <p class="card-text no-margin"><span  class="font-weight-bold">Estado do animal:</span> {{pedido.petPedido.status}}</p>
                     </div>
-
-                    <h6 class="card-title font-weight-bold no-margin"><span class="sr-only">Nome do animal: </span>{{petPedido.name}}</h6>
-                    <p class="card-text no-margin"><span  class="font-weight-bold">Categoria:</span> {{petPedido.category.name}}</p>
-                    <p class="card-text no-margin"><span  class="font-weight-bold">Tags:</span> <span class="tag-animal" ng-repeat="tag in petPedido.tags">'{{tag.name}}' </span></p>
-                    <p class="card-text no-margin"><span  class="font-weight-bold">Estado do animal:</span> {{petPedido.status}}</p>
                 </div>
             </div>
-        </div>
 
-        <button type="button" ng-hide="pedido.status === 'cancelado' || pedido.status == null" class="btn btn-outline-danger" data-toggle="modal" data-target="#confirmacaoModal">Cancelar Pedido</button>
+            <button type="button" ng-click="setarPedidoParaCancelar(pedido)" ng-hide="pedido.status !== 'enviado' || pedido.status == null" class="btn btn-outline-danger" data-toggle="modal" data-target="#confirmacaoModal">Cancelar Pedido</button>
+        </div>
     </div>
 
     <!-- Modal Confirmação Cancelamento -->

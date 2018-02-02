@@ -1,21 +1,70 @@
-app.controller('PedidosCtrl', function($scope, $localStorage, $window, OrderByID, PetByID, SavePet, MakeOrder) {
+app.controller('PedidosCtrl', function($scope, $localStorage, $window, OrderByID, PetByID, SavePet, MakeOrder, CancelOrderFirebase, GetUserPedidos) {
     $localStorage.viewAtual = "pedidos";
     
     if ($localStorage.userLogged == null) {
         $window.location.href = '#/login';
     }
 
+    $scope.pedidosUser = [];
+
     var pedidoOriginal = null;
-    var orderIDPedido = -1;
     
     var inputAnterior = "";
 
     /*--------- Funções ---------*/
-    var anularPedidoPet = function () {
-        $scope.pedidoPronto = false;
-        $scope.petPedidoPronto = false;
-        $scope.pedido = null;
-        $scope.petPedido = null;
+    var carregarPetsUser = function () {
+        $scope.pedidosUser = [];
+
+        var pedidosUserID = GetUserPedidos.query($localStorage.userLogged.username);
+    
+        pedidosUserID.$promise.then(function () {
+            for (propertyName in pedidosUserID) {
+                if ((!isNaN(propertyName)) && propertyName != null && pedidosUserID[propertyName].id != null) {
+                    $scope.pedidosUser.push(getOrderByID(propertyName));
+                }
+            }
+        });
+    };
+    carregarPetsUser();
+
+    var getOrderByID = function (orderID) {
+        if (orderID != null && orderID !== "") {
+            /* Pegando o pedido na API */
+            var pedido = OrderByID.query(orderID);
+
+            //$scope.pedido = getOrderByID(4535435465);
+
+            pedido.$promise.then(function() { //Pedido pronto
+                pedido.pedidoPronto = true;
+
+                /* Cuidando da data */
+                pedido.shipDateFormatted = pedido.shipDate;
+                var datePedido = new Date(pedido.shipDateFormatted);
+                var dd = datePedido.getDate();
+                var mm = datePedido.getMonth()+1;
+                var yyyy = datePedido.getFullYear();
+                if(dd<10) {
+                    dd = '0'+dd
+                } 
+                if(mm<10) {
+                    mm = '0'+mm
+                }
+                pedido.shipDateFormatted = [dd, mm, yyyy].join('/');
+
+                /* Pegando o animal na API */
+                pedido.petPedido = PetByID.query(pedido.petId);
+                pedido.petPedido.$promise.then(function () {
+                    pedido.petPedidoPronto = true;
+                    pedido.petPedido.indexFotoAtual = 0;
+                    mudarFlagBotao(pedido.petPedido);
+                }, function () { 
+                    pedido.petPedidoPronto = false;
+                    pedido.petPedido = null;
+                });
+            });
+
+            return pedido;
+        };
     };
 
     var mudarFlagBotao = function (pet) {
@@ -32,77 +81,34 @@ app.controller('PedidosCtrl', function($scope, $localStorage, $window, OrderByID
 	};
 
     /*--------- Funções $scope ---------*/
-    $scope.getOrderByID = function (orderID) {
-        orderIDPedido = orderID;
-
-        if (orderID != null && orderID !== "") {
-            /* Pegando o pedido na API */
-            pedidoOriginal = OrderByID.query(orderID);
-            $scope.pedido = pedidoOriginal;
-
-            //$scope.pedido = getOrderByID(4535435465);
-
-            $scope.pedido.$promise.then(function() { //Pedido pronto
-                $scope.pedidoPronto = true;
-
-                /* Cuidando da data */
-                $scope.pedido.shipDateFormatted = $scope.pedido.shipDate;
-                var datePedido = new Date($scope.pedido.shipDateFormatted);
-                var dd = datePedido.getDate();
-                var mm = datePedido.getMonth()+1;
-                var yyyy = datePedido.getFullYear();
-                if(dd<10) {
-                    dd = '0'+dd
-                } 
-                if(mm<10) {
-                    mm = '0'+mm
-                }
-                $scope.pedido.shipDateFormatted = [dd, mm, yyyy].join('/');
-
-                /* Pegando o animal na API */
-                $scope.petPedido = PetByID.query($scope.pedido.petId);
-                $scope.petPedido.$promise.then(function () {
-                    $scope.petPedidoPronto = true;
-                    $scope.petPedido.indexFotoAtual = 0;
-                    mudarFlagBotao($scope.petPedido);
-                }, function () { 
-                    $scope.petPedidoPronto = false;
-                    $scope.petPedido = null;
-                });
-
-            }, function() { //Caso não for possível pegar o pedido
-                anularPedidoPet();
-            });
-        };
-    };
-
     $scope.cancelarPedido = function () {
-        $scope.pedido.$promise.then(function() {
-            //$scope.petPedido.status = 'disponivel';
-            var petToSave = new SavePet($scope.petPedido);
-            petToSave.status = 'disponivel';
-            var resourcePetToSave = petToSave.$update();
+        var pedido = $scope.pedidoParaCancelar;
+        var orderID = pedido.id;
 
-            //$scope.pedido.status = 'cancelado';
-            var order = new MakeOrder(pedidoOriginal);
-            order.status = 'cancelado';
-            var orderResource = order.$update();
+        //$scope.petPedido.status = 'disponivel';
+        pedido.petPedido.status = 'disponivel';
+        var petToSave = new SavePet(pedido.petPedido);
+        var resourcePetToSave = petToSave.$update();
 
-            var pedidoNaoEfetuado = function () {
-                $scope.numeroPedidoCancelado = orderIDPedido;
-                $scope.pedidoCanceladoSucesso = false;
-            };
-            
-            resourcePetToSave.then(function() {
-                orderResource.then(function() {
-                    $scope.getOrderByID(orderIDPedido);
-                    $scope.pedido.$promise.then(function() {
-                        $scope.numeroPedidoCancelado = orderIDPedido;
-                        $scope.pedidoCanceladoSucesso = true;
-                    });
-                }, pedidoNaoEfetuado);
+        //$scope.pedido.status = 'cancelado';
+        pedido.status = 'cancelado';
+        var order = new MakeOrder(pedido);
+        var orderResource = order.$update();
+
+        var pedidoNaoEfetuado = function () {
+            $scope.numeroPedidoCancelado = orderID;
+            $scope.pedidoCanceladoSucesso = false;
+        };
+        
+        resourcePetToSave.then(function() {
+            orderResource.then(function() {
+                getOrderByID(orderID);
+                $scope.numeroPedidoCancelado = orderID;
+                $scope.pedidoCanceladoSucesso = true;
+
+                //carregarPetsUser();
             }, pedidoNaoEfetuado);
-        });
+        }, pedidoNaoEfetuado);
     };
 
     $scope.fecharAlertConfirmacao = function () {
@@ -111,37 +117,28 @@ app.controller('PedidosCtrl', function($scope, $localStorage, $window, OrderByID
     };
 
     $scope.botaoFotoAnterior = function(pet) {
-		$scope.petPedido.$promise.then(function () {
-			if (typeof pet.indexFotoAtual == 'undefined') {
-				pet.indexFotoAtual = 0;
-			}
-			if (pet.indexFotoAtual > 0) {
-				pet.indexFotoAtual--;
-			}
+        if (typeof pet.indexFotoAtual == 'undefined') {
+            pet.indexFotoAtual = 0;
+        }
+        if (pet.indexFotoAtual > 0) {
+            pet.indexFotoAtual--;
+        }
 
-			mudarFlagBotao(pet);
-		});
+        mudarFlagBotao(pet);
 	};
 
 	$scope.botaoProximaFoto = function(pet) {
-		$scope.petPedido.$promise.then(function () {
-			if (typeof pet.indexFotoAtual == 'undefined') {
-				pet.indexFotoAtual = 0;
-			}
-			if (pet.indexFotoAtual < pet.photoUrls.length-1) {
-				pet.indexFotoAtual++;
-			}
-
-			mudarFlagBotao(pet);
-		});
-    };
-    
-    $scope.inputChange = function() {
-        var regex = RegExp(/(^[^\-]{0,1})?(^[\d]*)$/);
-        if( regex.exec($scope.pedidoID) != null ) {
-            inputAnterior = $scope.pedidoID;
-        } else {
-            $scope.pedidoID = inputAnterior;
+        if (typeof pet.indexFotoAtual == 'undefined') {
+            pet.indexFotoAtual = 0;
         }
+        if (pet.indexFotoAtual < pet.photoUrls.length-1) {
+            pet.indexFotoAtual++;
+        }
+
+        mudarFlagBotao(pet);
+    };
+
+    $scope.setarPedidoParaCancelar = function (pedido) {
+        $scope.pedidoParaCancelar = pedido;
     }
 });

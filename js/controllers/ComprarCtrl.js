@@ -1,4 +1,4 @@
-app.controller('ComprarCtrl', function($scope, $localStorage, $window, PetsByStatus, MakeOrder, SavePet) {
+app.controller('ComprarCtrl', function($scope, $localStorage, $window, PetsByStatus, MakeOrder, MakeOrderFirebase, SavePet) {
 	$localStorage.viewAtual = "comprar";
     
     $scope.$storage = $localStorage;
@@ -43,13 +43,15 @@ app.controller('ComprarCtrl', function($scope, $localStorage, $window, PetsBySta
 
 		$scope.pets.$promise.then(function () {
 			$scope.pets.sort(function(a, b) {
+				if((typeof b.name) === "undefined") return -1;
+				if((typeof a.name) === "undefined") return 1;
 				if(a.name.toLowerCase() < b.name.toLowerCase()) return -1;
 				if(a.name.toLowerCase() > b.name.toLowerCase()) return 1;
 				return 0;
 			});
 			
 			$scope.pets.forEach(function(pet, index) {
-				if (pet.id == 9205436248879931000) {
+				if (pet.id == 9205436248879931000 || pet.id == 9205436248879933000 || pet.id == 9205436248879933620) {
 					return;
 				}
 
@@ -168,6 +170,8 @@ app.controller('ComprarCtrl', function($scope, $localStorage, $window, PetsBySta
 				$scope.numeroDoPedido = order.id;
 				getPetsBD();
 			});
+
+			MakeOrderFirebase.makeOrder($localStorage.userLogged.username, order.id);
 		});
 	};
 
