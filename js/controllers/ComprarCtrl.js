@@ -18,7 +18,10 @@ app.controller('ComprarCtrl', function($scope, $localStorage, $window, PetsBySta
 		} else if (pet.indexFotoAtual == pet.photoUrls.length-1) {
 			pet.flagBotaoAnterior = false;
 			pet.flagBotaoProximo = true;
-		}
+		} else {
+            pet.flagBotaoAnterior = false;
+			pet.flagBotaoProximo = false;
+        }
 	}
 
 	var atualizarPaginacao = function (pagina) {

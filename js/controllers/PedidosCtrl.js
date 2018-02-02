@@ -77,7 +77,10 @@ app.controller('PedidosCtrl', function($scope, $localStorage, $window, OrderByID
 		} else if (pet.indexFotoAtual == pet.photoUrls.length-1) {
 			pet.flagBotaoAnterior = false;
 			pet.flagBotaoProximo = true;
-		}
+		} else {
+            pet.flagBotaoAnterior = false;
+			pet.flagBotaoProximo = false;
+        }
 	};
 
     /*--------- Funções $scope ---------*/
