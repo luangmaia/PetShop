@@ -1,4 +1,4 @@
-app.controller('ComprarCtrl', function($scope, $localStorage, PetsByStatus, MakeOrder, SavePet) {
+app.controller('ComprarCtrl', function($scope, $localStorage, $window, PetsByStatus, MakeOrder, SavePet) {
 	$localStorage.viewAtual = "comprar";
     
     $scope.$storage = $localStorage;
@@ -42,6 +42,12 @@ app.controller('ComprarCtrl', function($scope, $localStorage, PetsByStatus, Make
 		arrayPets = [];
 
 		$scope.pets.$promise.then(function () {
+			$scope.pets.sort(function(a, b) {
+				if(a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+				if(a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+				return 0;
+			});
+			
 			$scope.pets.forEach(function(pet, index) {
 				if (pet.id == 9205436248879931000) {
 					return;
@@ -163,5 +169,9 @@ app.controller('ComprarCtrl', function($scope, $localStorage, PetsByStatus, Make
 				getPetsBD();
 			});
 		});
+	};
+
+	$scope.redirecionarLogin = function () {
+		$window.location.href = '#/login';
 	};
 });

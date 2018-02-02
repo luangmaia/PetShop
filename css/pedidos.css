@@ -4,6 +4,7 @@
 
 .foto-animal {
     height: 100%;
+    max-width: 256px;
 }
 
 .btn-pedido {

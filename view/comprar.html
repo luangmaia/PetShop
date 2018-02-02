@@ -25,7 +25,7 @@
 				<p class="card-text">Tags: <span ng-repeat="tag in pet.tags" class="tag-animal">'{{tag.name}}' </span></p>
 			</div>
 			<div class="card-footer">
-				<a href="" class="btn btn-outline-info btn-block" ng-hide="$storage.userLogged == null" ng-click="clickComprar(pet)" role="button" data-toggle="modal"  data-target=".modalInformacoesPedido">Comprar</a>
+				<a href="" class="btn btn-outline-info btn-block" ng-click="clickComprar(pet)" role="button" data-toggle="modal"  data-target=".modalInformacoesPedido">Comprar</a>
 			</div>
 		</div>
 	</div>
@@ -77,7 +77,8 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar<span class="sr-only"> compra</span></button>
-					<a href="#/comprar" class="btn btn-primary" ng-click="clickConfirmarPedido()" data-dismiss="modal" role="button"  data-toggle="modal" data-target="#infoPedidoModal">Confirmar<span class="sr-only"> compra</span></a>
+					<a href="#/login" class="btn btn-primary" ng-hide="$storage.userLogged != null" ng-click="redirecionarLogin()" data-dismiss="modal" role="button">Confirmar<span class="sr-only"> compra</span></a>
+					<a href="#/comprar" class="btn btn-primary" ng-hide="$storage.userLogged == null" ng-click="clickConfirmarPedido()" data-dismiss="modal" role="button"  data-toggle="modal" data-target="#infoPedidoModal">Confirmar<span class="sr-only"> compra</span></a>
 				</div>
 			</div>
 		</div>
@@ -86,22 +87,22 @@
 	<!-- Modal Informações Sobre o Pedido -->
 	<div class="modal fade" id="infoPedidoModal" tabindex="-1" role="dialog" aria-labelledby="infoPedidoModalTitle" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered" role="document">
-		  <div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="infoPedidoModalTitle">Informações sobre o pedido</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-					<span aria-hidden="true">&times;</span>
-				</button>
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="infoPedidoModalTitle">Informações sobre o pedido</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<h5 class="font-weight-bold">Parabéns! Sua compra foi realizada com sucesso.</h5>
+					<p><span class="font-weight-bold">Número do pedido:</span> {{numeroDoPedido}}</p>
+					<p>Guarde este número para futura consulta.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+				</div>
 			</div>
-			<div class="modal-body">
-				<h5 class="font-weight-bold">Parabéns! Sua compra foi realizada com sucesso.</h5>
-				<p><span class="font-weight-bold">Número do pedido:</span> {{numeroDoPedido}}</p>
-				<p>Guarde este número para futura consulta.</p>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-			</div>
-		  </div>
 		</div>
-	  </div>
+	</div>
 </div>
